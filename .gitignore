@@ -7,3 +7,10 @@ submissions/
 out/
 *.zip
 .env
+# local only: images derived from BDD100K / WoodScape must not be committed (ATTRIBUTION.md)
+work/views/
+work/overlay/
+work/peer_overlay/
+submit/screens/
+submit/share/
+submit/hahuydung-for-peer.zip
