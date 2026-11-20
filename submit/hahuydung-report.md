@@ -114,15 +114,3 @@ Nhãn của bạn đi vào model ở đâu? Chọn một lỗi đã sửa và n�
 3. Vẽ từ xa về gần thì nội suy x theo từng hàng không đổi về giá trị, nhưng điểm đầu/điểm cuối bị đảo: `road_check` sẽ báo QC1-04 "vẽ ngược chiều", và script giả định điểm đầu là gần xe (ví dụ cắt polyline, tính điểm dừng) sẽ gặp khó.
 
 ---
-
-## Công cụ đã sử dụng
-Theo hướng dẫn của giảng viên (được dùng công cụ, ghi lại ở cuối báo cáo):
-- **CVAT 2.82.0 self-host** (Docker Desktop, `docker compose up -d` từ repo `cvat-ai/cvat` tag v2.82.0) — không dùng app.cvat.ai, ảnh không rời máy.
-- **Claude Code (Anthropic)** hỗ trợ toàn bộ phần thao tác: dựng CVAT local, tạo project/task qua REST API, đặt điểm polyline/polygon/box sau khi xem từng ảnh phóng to, viết các script hỗ trợ, đẩy nhãn vào job qua API, chuyển job sang completed, export, chụp màn hình qua trình duyệt trong app, soạn báo cáo này.
-- Script hỗ trợ (thư mục `work/`, Python + numpy/Pillow/OpenCV, chỉ chạy trên máy):
-  - `zoom.py`: phóng to vùng ảnh có lưới toạ độ để đọc vị trí điểm.
-  - `snap.py`: đưa polyline đặt tay vào **tâm vệt sơn** (lọc "gờ sáng" theo pháp tuyến, tự ước lượng bề rộng vạch) để lệch ≤ 5 px; `ridges.py`/đo đỉnh vàng theo hàng cho vạch mờ, vạch đôi.
-  - `blobs.py`: lấy bao lồi các vạch ngựa vằn làm polygon crosswalk; `lamps.py`: tìm bóng đèn đang sáng để khoanh box đèn.
-  - `build.py` + `work/spec/*.py`: khai báo nhãn từng ảnh, dựng `ann.json`, vẽ overlay để tự kiểm bằng mắt.
-  - `cvat_api.py`: tạo project/task, upload nhãn, set job completed, export CVAT for images 1.1 (không kèm ảnh); `merge_export.py`: gộp task chính + task thêm thành một zip nộp.
-- Công cụ của repo lab: `road_check lint` (+ `--manifest`), `road_check check` (kiểm vòng tròn định dạng), `road_lab.rowanchor`, `road_check selftest` (SELFTEST PASS).
